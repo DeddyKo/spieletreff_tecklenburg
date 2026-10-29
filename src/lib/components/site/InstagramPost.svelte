@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	interface Props {
 		shortcode: string;
 		caption?: string;
@@ -22,7 +23,9 @@
 
 <div class="w-full max-w-sm mx-auto">
 	{#if consentGiven}
-		<div class="rounded-2xl overflow-hidden shadow-lg border border-outline-variant/40 bg-surface-container-lowest">
+		<div
+			class="rounded-2xl overflow-hidden shadow-lg border border-outline-variant/40 bg-surface-container-lowest"
+		>
 			<iframe
 				src={embedUrl}
 				title="Instagram-Post von @spielteckland"
@@ -44,7 +47,12 @@
 				<div
 					class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center shrink-0"
 				>
-					<svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<svg
+						class="w-5 h-5 text-white"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						aria-hidden="true"
+					>
 						<path d={instagramPath} />
 					</svg>
 				</div>
@@ -55,7 +63,7 @@
 				<a
 					href={profileUrl}
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="@spielteckland auf Instagram folgen (öffnet extern)"
 					class="ml-auto shrink-0 text-xs font-bold text-primary hover:underline rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1"
 				>
@@ -95,9 +103,10 @@
 				<p class="text-xs text-on-surface-variant/70">
 					Es werden Daten an Meta (Instagram) übermittelt. Mehr dazu in unserer
 					<a
-						href="/datenschutz/"
+						href={resolve('datenschutz/')}
 						class="underline hover:text-on-surface-variant rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1"
-					>Datenschutzerklärung</a>.
+						>Datenschutzerklärung</a
+					>.
 				</p>
 			</div>
 
@@ -112,7 +121,7 @@
 				<a
 					href={postUrl}
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="Post auf Instagram ansehen (öffnet extern)"
 					class="inline-block mt-1 text-xs text-on-surface-variant hover:text-primary hover:underline rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1"
 				>

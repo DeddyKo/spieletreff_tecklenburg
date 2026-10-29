@@ -1,9 +1,9 @@
 <script lang="ts">
-	import MapConsentDialog from '$lib/components/site/MapConsentDialog.svelte';
-	import { calendarStore, displayEventTitle, isCancelledEvent } from '$lib/events.svelte';
-	import { locationOrUndefined } from '$lib/location';
-	import type { CalendarEvent } from '$lib/types';
-	import Icon from '$lib/components/Icon.svelte';
+	import MapConsentDialog from '#lib/components/site/MapConsentDialog.svelte';
+	import { calendarStore, displayEventTitle, isCancelledEvent } from '#lib/events.svelte.js';
+	import { locationOrUndefined } from '#lib/location.js';
+	import type { CalendarEvent } from '#lib/types.js';
+	import Icon from '#lib/components/Icon.svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { SvelteMap } from 'svelte/reactivity';
 	import { quartOut } from 'svelte/easing';
@@ -34,7 +34,11 @@
 	const TZ = 'Europe/Berlin';
 
 	const weekdayFormatter = new Intl.DateTimeFormat('de-DE', { timeZone: TZ, weekday: 'short' });
-	const timeFormatter = new Intl.DateTimeFormat('de-DE', { timeZone: TZ, hour: '2-digit', minute: '2-digit' });
+	const timeFormatter = new Intl.DateTimeFormat('de-DE', {
+		timeZone: TZ,
+		hour: '2-digit',
+		minute: '2-digit'
+	});
 	const fullDateFormatter = new Intl.DateTimeFormat('de-DE', {
 		timeZone: TZ,
 		weekday: 'long',
@@ -43,8 +47,16 @@
 		year: 'numeric'
 	});
 	const dayFormatter = new Intl.DateTimeFormat('de-DE', { timeZone: TZ, day: 'numeric' });
-	const monthYearFormatter = new Intl.DateTimeFormat('de-DE', { timeZone: TZ, month: 'long', year: 'numeric' });
-	const groupKeyFormatter = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit' });
+	const monthYearFormatter = new Intl.DateTimeFormat('de-DE', {
+		timeZone: TZ,
+		month: 'long',
+		year: 'numeric'
+	});
+	const groupKeyFormatter = new Intl.DateTimeFormat('en-CA', {
+		timeZone: TZ,
+		year: 'numeric',
+		month: '2-digit'
+	});
 
 	function formatWeekday(d: Date): string {
 		return weekdayFormatter.format(d);
@@ -93,14 +105,19 @@
 	const cardFlyY = $derived(reduceMotion ? 0 : 10);
 	const heroDuration = $derived(reduceMotion ? 0 : 420);
 	const cardDuration = $derived(reduceMotion ? 0 : 320);
-
 </script>
 
 <svelte:head>
 	<title>Kalender – Spieletreff Tecklenburg</title>
-	<meta name="description" content="Alle Spieleabende und Termine des Spieletreffs Tecklenburg auf einen Blick. Wir treffen uns jeden 1. und 3. Freitag im Monat." />
+	<meta
+		name="description"
+		content="Alle Spieleabende und Termine des Spieletreffs Tecklenburg auf einen Blick. Wir treffen uns jeden 1. und 3. Freitag im Monat."
+	/>
 	<meta property="og:title" content="Kalender – Spieletreff Tecklenburg" />
-	<meta property="og:description" content="Alle Spieleabende und Termine auf einen Blick. Jeden 1. und 3. Freitag im Tecklenburger Land." />
+	<meta
+		property="og:description"
+		content="Alle Spieleabende und Termine auf einen Blick. Jeden 1. und 3. Freitag im Tecklenburger Land."
+	/>
 </svelte:head>
 
 <main class="bg-surface font-body text-on-surface antialiased">
@@ -108,215 +125,256 @@
 	<section class="bg-surface-container-low py-16 px-8">
 		<div class="max-w-7xl mx-auto">
 			<div
-				in:fly={{ y: heroFlyY, duration: heroDuration, delay: reduceMotion ? 0 : 30, easing: quartOut }}
+				in:fly={{
+					y: heroFlyY,
+					duration: heroDuration,
+					delay: reduceMotion ? 0 : 30,
+					easing: quartOut
+				}}
 				class="inline-block bg-secondary-container text-on-secondary-container px-4 py-1 rounded-sm mb-4 font-bold text-sm tracking-widest uppercase"
 			>
 				Spielplan
 			</div>
 			<h1
-				in:fly={{ y: heroFlyY, duration: heroDuration, delay: reduceMotion ? 0 : 100, easing: quartOut }}
+				in:fly={{
+					y: heroFlyY,
+					duration: heroDuration,
+					delay: reduceMotion ? 0 : 100,
+					easing: quartOut
+				}}
 				class="text-5xl md:text-6xl font-extrabold font-headline text-on-surface leading-tight mb-4"
 			>
 				Unser <span class="text-primary italic">Kalender</span>
 			</h1>
 			<p
-				in:fly={{ y: heroFlyY, duration: heroDuration, delay: reduceMotion ? 0 : 170, easing: quartOut }}
+				in:fly={{
+					y: heroFlyY,
+					duration: heroDuration,
+					delay: reduceMotion ? 0 : 170,
+					easing: quartOut
+				}}
 				class="text-xl text-on-surface-variant max-w-2xl leading-relaxed"
 			>
-				Alle Spieleabende, Sondertermine und Turniere – immer auf einen Blick. Wir treffen uns jeden 1. und 3. Freitag im Monat.
+				Alle Spieleabende, Sondertermine und Turniere – immer auf einen Blick. Wir treffen uns jeden
+				1. und 3. Freitag im Monat.
 			</p>
-		{#if nextCancellation || nextEvent}
-			<div
-				in:fly={{ y: heroFlyY, duration: heroDuration, delay: reduceMotion ? 0 : 240, easing: quartOut }}
-				class="mt-8 max-w-2xl space-y-4"
-			>
-				{#if nextCancellation}
-					<div
-						role="status"
-						class="flex gap-3 rounded-xl bg-error-container px-5 py-4 text-on-error-container"
-					>
-						<Icon name="warning" class="mt-0.5 shrink-0 text-2xl leading-none text-error" />
-						<div class="min-w-0">
-							<p class="font-extrabold font-headline text-sm tracking-wide">Leider abgesagt</p>
-							<p class="mt-1 leading-snug">
-								Das Treffen am {formatFullDate(nextCancellation.start)}
-								({displayEventTitle(nextCancellation)}) fällt aus. Bitte kommt nicht vorbei.
-							</p>
-							{#if nextCancellation.description}
-								<p class="mt-2 text-sm leading-relaxed whitespace-pre-line opacity-90">
-									{nextCancellation.description}
+			{#if nextCancellation || nextEvent}
+				<div
+					in:fly={{
+						y: heroFlyY,
+						duration: heroDuration,
+						delay: reduceMotion ? 0 : 240,
+						easing: quartOut
+					}}
+					class="mt-8 max-w-2xl space-y-4"
+				>
+					{#if nextCancellation}
+						<div
+							role="status"
+							class="flex gap-3 rounded-xl bg-error-container px-5 py-4 text-on-error-container"
+						>
+							<Icon name="warning" class="mt-0.5 shrink-0 text-2xl leading-none text-error" />
+							<div class="min-w-0">
+								<p class="font-extrabold font-headline text-sm tracking-wide">Leider abgesagt</p>
+								<p class="mt-1 leading-snug">
+									Das Treffen am {formatFullDate(nextCancellation.start)}
+									({displayEventTitle(nextCancellation)}) fällt aus. Bitte kommt nicht vorbei.
 								</p>
-							{/if}
-							<a
-								href="https://chat.whatsapp.com/2naM3nPDYs08qymMxBIE8v?mode=gi_t"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="mt-3 inline-flex items-center gap-1.5 text-sm font-bold underline decoration-current/40 hover:decoration-current rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-error focus-visible:outline-offset-2"
-							>
-								Fragen? Schreib uns auf WhatsApp
-								<Icon name="open_in_new" class="text-sm leading-none opacity-70" />
-							</a>
+								{#if nextCancellation.description}
+									<p class="mt-2 text-sm leading-relaxed whitespace-pre-line opacity-90">
+										{nextCancellation.description}
+									</p>
+								{/if}
+								<a
+									href="https://chat.whatsapp.com/2naM3nPDYs08qymMxBIE8v?mode=gi_t"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="mt-3 inline-flex items-center gap-1.5 text-sm font-bold underline decoration-current/40 hover:decoration-current rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-error focus-visible:outline-offset-2"
+								>
+									Fragen? Schreib uns auf WhatsApp
+									<Icon name="open_in_new" class="text-sm leading-none opacity-70" />
+								</a>
+							</div>
 						</div>
-					</div>
-				{/if}
-				{#if nextEvent}
-					<div
-						class="inline-flex items-center gap-3 bg-primary-container text-on-primary-container px-6 py-3 rounded-xl font-bold"
-					>
-						<Icon name="event_upcoming" />
-						Nächster Spielabend: {formatFullDate(nextEvent.start)}{#if !nextEvent.allDay}&nbsp;ab {formatTime(nextEvent.start)} Uhr{/if}
-					</div>
-				{/if}
-			</div>
-		{/if}
+					{/if}
+					{#if nextEvent}
+						<div
+							class="inline-flex items-center gap-3 bg-primary-container text-on-primary-container px-6 py-3 rounded-xl font-bold"
+						>
+							<Icon name="event_upcoming" />
+							Nächster Spielabend: {formatFullDate(nextEvent.start)}{#if !nextEvent.allDay}&nbsp;ab {formatTime(
+									nextEvent.start
+								)} Uhr{/if}
+						</div>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</section>
 
 	<!-- Upcoming Events -->
 	<section id="bevorstehende-termine" class="py-20 px-8 bg-surface">
 		<div class="max-w-7xl mx-auto">
-		<h2 class="text-3xl font-extrabold font-headline text-on-surface mb-8">
-			Bevorstehende Termine
-		</h2>
+			<h2 class="text-3xl font-extrabold font-headline text-on-surface mb-8">
+				Bevorstehende Termine
+			</h2>
 
-		{#if upcomingGroups.length === 0 && hasCalendarSourceData}
-			<div class="text-center py-20 text-on-surface-variant">
-				<Icon name="event_busy" class="text-7xl mb-4 block opacity-30" />
-				<p class="text-2xl font-bold font-headline">Keine bevorstehenden Termine</p>
-				<p class="mt-2 text-lg">Kein Treffen in Sicht? Tritt der WhatsApp-Gruppe bei und verpasse keine spontanen Runden.</p>
-				<a
-					href="https://chat.whatsapp.com/2naM3nPDYs08qymMxBIE8v?mode=gi_t"
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label="WhatsApp-Gruppe beitreten (öffnet extern)"
-					class="mt-6 inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-primary/90 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-				>
-					<Icon name="forum" class="text-base leading-none" />
-					WhatsApp-Gruppe beitreten
-				</a>
-			</div>
-		{:else if upcomingGroups.length === 0}
-			<div class="text-center py-20 text-on-surface-variant">
-				<Icon name="cloud_off" class="text-7xl mb-4 block opacity-30" />
-				<p class="text-2xl font-bold font-headline">Termine sind gerade nicht verfügbar</p>
-				<p class="mt-2 text-lg">Bitte versuche es in ein paar Minuten erneut.</p>
-				<button
-					type="button"
-					onclick={() => window.location.reload()}
-					class="mt-6 inline-flex items-center gap-2 bg-surface-container text-on-surface px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-surface-container-high transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-				>
-					<Icon name="refresh" class="text-base leading-none" />
-					Seite neu laden
-				</button>
-			</div>
-		{:else}
-		<div class="space-y-10">
-			{#each upcomingGroups as group, gi (group.key)}
-					{@const accent = accents[gi % 3]}
-					<div class="bg-surface-container rounded-3xl p-6 md:p-8">
-						<!-- Month heading -->
-						<div class="flex items-center gap-4 mb-8">
-							<div class="w-3 h-3 rounded-full {accent.dot}"></div>
-							<h3 class="text-sm font-bold font-headline {accent.text} uppercase tracking-[0.2em]">{group.label}</h3>
-						</div>
-						<!-- Event list -->
-						<div class="space-y-8">
-							{#each group.events as event, ei (event.uid)}
-								{@const cancelled = isCancelledEvent(event)}
-								{@const isNext = !cancelled && nextEvent?.uid === event.uid}
-								<div
-									in:fly={{
-										y: cardFlyY,
-										duration: cardDuration,
-										delay: reduceMotion ? 0 : Math.min(40 + gi * 45 + ei * 30, 260),
-										easing: quartOut
-									}}
-									class="upcoming-card rounded-2xl overflow-hidden flex flex-col sm:flex-row {cancelled
-										? 'upcoming-card--cancelled bg-error-container/60 ring-1 ring-error/25'
-										: 'bg-surface-container-highest'}"
+			{#if upcomingGroups.length === 0 && hasCalendarSourceData}
+				<div class="text-center py-20 text-on-surface-variant">
+					<Icon name="event_busy" class="text-7xl mb-4 block opacity-30" />
+					<p class="text-2xl font-bold font-headline">Keine bevorstehenden Termine</p>
+					<p class="mt-2 text-lg">
+						Kein Treffen in Sicht? Tritt der WhatsApp-Gruppe bei und verpasse keine spontanen
+						Runden.
+					</p>
+					<a
+						href="https://chat.whatsapp.com/2naM3nPDYs08qymMxBIE8v?mode=gi_t"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="WhatsApp-Gruppe beitreten (öffnet extern)"
+						class="mt-6 inline-flex items-center gap-2 bg-primary text-on-primary px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-primary/90 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+					>
+						<Icon name="forum" class="text-base leading-none" />
+						WhatsApp-Gruppe beitreten
+					</a>
+				</div>
+			{:else if upcomingGroups.length === 0}
+				<div class="text-center py-20 text-on-surface-variant">
+					<Icon name="cloud_off" class="text-7xl mb-4 block opacity-30" />
+					<p class="text-2xl font-bold font-headline">Termine sind gerade nicht verfügbar</p>
+					<p class="mt-2 text-lg">Bitte versuche es in ein paar Minuten erneut.</p>
+					<button
+						type="button"
+						onclick={() => window.location.reload()}
+						class="mt-6 inline-flex items-center gap-2 bg-surface-container text-on-surface px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-surface-container-high transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+					>
+						<Icon name="refresh" class="text-base leading-none" />
+						Seite neu laden
+					</button>
+				</div>
+			{:else}
+				<div class="space-y-10">
+					{#each upcomingGroups as group, gi (group.key)}
+						{@const accent = accents[gi % 3]}
+						<div class="bg-surface-container rounded-3xl p-6 md:p-8">
+							<!-- Month heading -->
+							<div class="flex items-center gap-4 mb-8">
+								<div class="w-3 h-3 rounded-full {accent.dot}"></div>
+								<h3
+									class="text-sm font-bold font-headline {accent.text} uppercase tracking-[0.2em]"
 								>
-									<!-- Date badge -->
+									{group.label}
+								</h3>
+							</div>
+							<!-- Event list -->
+							<div class="space-y-8">
+								{#each group.events as event, ei (event.uid)}
+									{@const cancelled = isCancelledEvent(event)}
+									{@const isNext = !cancelled && nextEvent?.uid === event.uid}
 									<div
-										class="flex flex-col items-center justify-center p-5 min-w-[80px] shrink-0 {cancelled
-											? 'bg-error/10'
-											: 'bg-surface-container-low'}"
+										in:fly={{
+											y: cardFlyY,
+											duration: cardDuration,
+											delay: reduceMotion ? 0 : Math.min(40 + gi * 45 + ei * 30, 260),
+											easing: quartOut
+										}}
+										class="upcoming-card rounded-2xl overflow-hidden flex flex-col sm:flex-row {cancelled
+											? 'upcoming-card--cancelled bg-error-container/60 ring-1 ring-error/25'
+											: 'bg-surface-container-highest'}"
 									>
-										<span
-											class="text-xs font-bold uppercase tracking-widest {cancelled
-												? 'text-error'
-												: accent.text}"
+										<!-- Date badge -->
+										<div
+											class="flex flex-col items-center justify-center p-5 min-w-[80px] shrink-0 {cancelled
+												? 'bg-error/10'
+												: 'bg-surface-container-low'}"
 										>
-											{formatWeekday(event.start)}
-										</span>
-										<span
-											class="text-4xl font-extrabold font-headline leading-none {cancelled
-												? 'text-on-error-container'
-												: 'text-on-surface'}"
-										>
-											{formatDay(event.start)}
-										</span>
-									</div>
-									<!-- Details -->
-									<div class="flex-1 p-5 flex flex-col md:flex-row md:items-center gap-4 justify-between min-w-0">
-										<div class="min-w-0">
-											{#if cancelled}
-												<span class="inline-block bg-error text-on-error text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide mb-1">
-													Abgesagt, bitte nicht kommen
-												</span>
-											{:else if isNext}
-												<span class="inline-block bg-primary text-on-primary text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide mb-1">
-													Nächstes Treffen
-												</span>
-											{/if}
-											<h4
-												class="text-xl font-bold font-headline {cancelled
+											<span
+												class="text-xs font-bold uppercase tracking-widest {cancelled
+													? 'text-error'
+													: accent.text}"
+											>
+												{formatWeekday(event.start)}
+											</span>
+											<span
+												class="text-4xl font-extrabold font-headline leading-none {cancelled
 													? 'text-on-error-container'
 													: 'text-on-surface'}"
 											>
-												{displayEventTitle(event)}
-											</h4>
-											<div class="flex flex-wrap gap-x-4 gap-y-1 mt-2">
-												{#if !event.allDay}
-													<span class="flex items-center gap-1.5 text-on-surface-variant text-sm">
-														<Icon name="schedule" class="text-lg leading-none" />
-														{formatTime(event.start)} Uhr
+												{formatDay(event.start)}
+											</span>
+										</div>
+										<!-- Details -->
+										<div
+											class="flex-1 p-5 flex flex-col md:flex-row md:items-center gap-4 justify-between min-w-0"
+										>
+											<div class="min-w-0">
+												{#if cancelled}
+													<span
+														class="inline-block bg-error text-on-error text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide mb-1"
+													>
+														Abgesagt, bitte nicht kommen
 													</span>
-												{:else}
-													<span class="flex items-center gap-1.5 text-on-surface-variant text-sm">
-														<Icon name="today" class="text-lg leading-none" />
-														Ganztägig
+												{:else if isNext}
+													<span
+														class="inline-block bg-primary text-on-primary text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide mb-1"
+													>
+														Nächstes Treffen
 													</span>
 												{/if}
-												{#if event.location}
-													<span class="flex items-center gap-1.5 text-on-surface-variant text-sm">
-														<Icon name="location_on" class="text-lg leading-none" />
-														{#if locationOrUndefined(event.location)}
-															<button
-																type="button"
-																class="text-left hover:underline cursor-pointer rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-																onclick={(eventClick) =>
-																	requestMapConsent(locationOrUndefined(event.location)!, eventClick.currentTarget)}
-															>
-																{locationOrUndefined(event.location)}
-															</button>
-														{/if}
-													</span>
+												<h4
+													class="text-xl font-bold font-headline {cancelled
+														? 'text-on-error-container'
+														: 'text-on-surface'}"
+												>
+													{displayEventTitle(event)}
+												</h4>
+												<div class="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+													{#if !event.allDay}
+														<span class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+															<Icon name="schedule" class="text-lg leading-none" />
+															{formatTime(event.start)} Uhr
+														</span>
+													{:else}
+														<span class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+															<Icon name="today" class="text-lg leading-none" />
+															Ganztägig
+														</span>
+													{/if}
+													{#if event.location}
+														<span class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+															<Icon name="location_on" class="text-lg leading-none" />
+															{#if locationOrUndefined(event.location)}
+																<button
+																	type="button"
+																	class="text-left hover:underline cursor-pointer rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+																	onclick={(eventClick) =>
+																		requestMapConsent(
+																			locationOrUndefined(event.location)!,
+																			eventClick.currentTarget
+																		)}
+																>
+																	{locationOrUndefined(event.location)}
+																</button>
+															{/if}
+														</span>
+													{/if}
+												</div>
+												{#if event.description}
+													<p
+														class="mt-3 text-on-surface-variant text-sm leading-relaxed whitespace-pre-line rounded-lg bg-surface-container-low px-3 py-2"
+													>
+														{event.description}
+													</p>
 												{/if}
 											</div>
-											{#if event.description}
-												<p class="mt-3 text-on-surface-variant text-sm leading-relaxed whitespace-pre-line rounded-lg bg-surface-container-low px-3 py-2">
-													{event.description}
-												</p>
-											{/if}
 										</div>
 									</div>
-								</div>
-							{/each}
+								{/each}
+							</div>
 						</div>
-					</div>
-				{/each}
-			</div>
-		{/if}
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</section>
 
@@ -325,7 +383,9 @@
 		<div class="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-6">
 			<div>
 				<p class="font-bold font-headline text-on-surface text-xl">Keinen Termin verpassen?</p>
-				<p class="text-on-surface-variant mt-1 leading-relaxed">Alle Infos und spontane Treffen direkt via WhatsApp, Facebook und Instagram.</p>
+				<p class="text-on-surface-variant mt-1 leading-relaxed">
+					Alle Infos und spontane Treffen direkt via WhatsApp, Facebook und Instagram.
+				</p>
 			</div>
 			<div class="flex flex-wrap items-center gap-3 shrink-0">
 				<a
@@ -365,7 +425,11 @@
 </main>
 
 {#if showMapConsent}
-	<MapConsentDialog open={showMapConsent} location={pendingLocation} onDecision={handleMapConsent} />
+	<MapConsentDialog
+		open={showMapConsent}
+		location={pendingLocation}
+		onDecision={handleMapConsent}
+	/>
 {/if}
 
 <style>
@@ -396,4 +460,3 @@
 		}
 	}
 </style>
-

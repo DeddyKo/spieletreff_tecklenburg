@@ -1,13 +1,4 @@
 {
-  "people": [],
-  "projects": [
-    "Mobile",
-    "Content",
-    "Hover",
-    "Touch",
-    "React",
-    "Side",
-    "Multi",
-    "Hero"
-  ]
+	"people": [],
+	"projects": ["Mobile", "Content", "Hover", "Touch", "React", "Side", "Multi", "Hero"]
 }

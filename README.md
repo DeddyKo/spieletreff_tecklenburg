@@ -13,7 +13,7 @@ Website project for Spieletreff Tecklenburg, built with SvelteKit, TypeScript, a
 
 ## Requirements
 
-- Node.js 22+
+- Node.js 26+
 - pnpm
 
 ## Local Development
@@ -49,4 +49,3 @@ pnpm dev
 
 - Adapter is configured for static output (`@sveltejs/adapter-static`).
 - Design direction and visual system are documented in `DESIGN.md`.
-

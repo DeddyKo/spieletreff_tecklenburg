@@ -5,6 +5,7 @@ import { test } from 'node:test';
 
 import { fetchCalendarEvents } from '../src/lib/server/calendar.ts';
 
+/** @param {string[]} lines */
 async function parseFixture(lines) {
 	const ical = [
 		'BEGIN:VEVENT',
@@ -15,7 +16,7 @@ async function parseFixture(lines) {
 	].join('\r\n');
 
 	const originalFetch = globalThis.fetch;
-	globalThis.fetch = async () => ({ ok: true, text: async () => ical });
+	globalThis.fetch = async () => new Response(ical, { status: 200 });
 	try {
 		return await fetchCalendarEvents();
 	} finally {
@@ -56,6 +57,7 @@ test('monthly Berlin event keeps its wall-clock time after daylight saving ends'
 	);
 });
 
+/** @returns {string[]} */
 function pagePaths(directory = join('src', 'routes'), route = '') {
 	const paths = [];
 	for (const entry of readdirSync(directory, { withFileTypes: true })) {

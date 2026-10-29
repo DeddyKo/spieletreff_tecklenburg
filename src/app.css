@@ -3,35 +3,35 @@
 @import '@fontsource-variable/manrope';
 
 @theme {
-	--color-primary: #2E3A8C;
-	--color-primary-dim: #1E2761;
-	--color-primary-container: #3F4EAD;
-	--color-on-primary-container: #FFFFFF;
-	--color-on-primary: #FFFFFF;
-	--color-secondary: #FF5F1F;
-	--color-secondary-container: #FF8040;
-	--color-on-secondary: #FFFFFF;
-	--color-on-secondary-container: #2A1000;
+	--color-primary: #2e3a8c;
+	--color-primary-dim: #1e2761;
+	--color-primary-container: #3f4ead;
+	--color-on-primary-container: #ffffff;
+	--color-on-primary: #ffffff;
+	--color-secondary: #ff5f1f;
+	--color-secondary-container: #ff8040;
+	--color-on-secondary: #ffffff;
+	--color-on-secondary-container: #2a1000;
 	--color-tertiary: #374151;
-	--color-tertiary-container: #D1D5DB;
-	--color-on-tertiary: #FFFFFF;
+	--color-tertiary-container: #d1d5db;
+	--color-on-tertiary: #ffffff;
 	--color-on-tertiary-container: #111827;
-	--color-background: #F3F4F6;
+	--color-background: #f3f4f6;
 	--color-on-background: #111827;
-	--color-surface: #F9FAFB;
-	--color-surface-container: #E5E7EB;
-	--color-surface-container-high: #D1D5DB;
-	--color-surface-container-highest: #C8CBD1;
-	--color-surface-container-low: #F3F4F6;
-	--color-surface-container-lowest: #FFFFFF;
+	--color-surface: #f9fafb;
+	--color-surface-container: #e5e7eb;
+	--color-surface-container-high: #d1d5db;
+	--color-surface-container-highest: #c8cbd1;
+	--color-surface-container-low: #f3f4f6;
+	--color-surface-container-lowest: #ffffff;
 	--color-on-surface: #111827;
-	--color-on-surface-variant: #4B5563;
-	--color-outline: #9CA3AF;
-	--color-outline-variant: #D1D5DB;
-	--color-error: #DC2626;
-	--color-error-container: #FEE2E2;
-	--color-on-error: #FFFFFF;
-	--color-on-error-container: #991B1B;
+	--color-on-surface-variant: #4b5563;
+	--color-outline: #9ca3af;
+	--color-outline-variant: #d1d5db;
+	--color-error: #dc2626;
+	--color-error-container: #fee2e2;
+	--color-on-error: #ffffff;
+	--color-on-error-container: #991b1b;
 
 	--font-headline: 'Plus Jakarta Sans', sans-serif;
 	--font-body: 'Manrope', sans-serif;
@@ -71,17 +71,25 @@
 }
 
 html {
-    interpolate-size: allow-keywords;
+	interpolate-size: allow-keywords;
 	scrollbar-gutter: stable;
 	-webkit-font-smoothing: antialiased;
 }
 
-h2,h3,h4,h5,h6 {
+h2,
+h3,
+h4,
+h5,
+h6 {
 	word-wrap: break-word;
 }
 
 @media (max-width: 640px) {
-	h2,h3,h4,h5,h6 {
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		hyphens: auto;
 	}
 }

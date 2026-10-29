@@ -1,20 +1,18 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import imgLogo from '$lib/assets/images/logo-transparent.png?enhanced';
-	import Icon from '$lib/components/Icon.svelte';
+	import { resolve } from '$app/paths';
+	import imgLogo from '#lib/assets/images/logo-transparent.png?enhanced';
+	import Icon from '#lib/components/Icon.svelte';
 </script>
 
 <footer class="w-full bg-surface-container-low font-body">
 	<div class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-8 py-16 md:grid-cols-4 md:px-12">
 		<div class="flex flex-col gap-5">
-			<a href="{base}/" class="inline-block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2" aria-label="Spieletreff Tecklenburger Land – Startseite">
-				<enhanced:img
-					src={imgLogo}
-					alt=""
-					aria-hidden="true"
-					sizes="64px"
-					class="h-16 w-auto"
-				/>
+			<a
+				href={resolve('/')}
+				class="inline-block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+				aria-label="Spieletreff Tecklenburger Land – Startseite"
+			>
+				<enhanced:img src={imgLogo} alt="" aria-hidden="true" sizes="64px" class="h-16 w-auto" />
 			</a>
 			<p class="text-base leading-relaxed text-on-surface-variant">
 				Offene Brettspielrunde im Tecklenburger Land – seit 2009. Kostenlos.
@@ -23,20 +21,52 @@
 		<div class="flex flex-col gap-4">
 			<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-primary">Seiten</h4>
 			<ul class="space-y-2">
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/">Home</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/kalender/">Kalender</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/geschichte/">Geschichte</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/datenschutz/">Datenschutz</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/impressum/">Impressum</a></li>
+				<li>
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href={resolve('/')}>Home</a
+					>
+				</li>
+				<li>
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href={resolve('kalender/')}>Kalender</a
+					>
+				</li>
+				<li>
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href={resolve('geschichte/')}>Geschichte</a
+					>
+				</li>
+				<li>
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href={resolve('datenschutz/')}>Datenschutz</a
+					>
+				</li>
+				<li>
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href={resolve('impressum/')}>Impressum</a
+					>
+				</li>
 			</ul>
 		</div>
 		<div class="flex flex-col gap-4">
-			<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-primary">Kontakt</h4>
+			<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-primary">
+				Kontakt
+			</h4>
 			<p class="text-base text-on-surface-variant">Mario Lampe</p>
-			<a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 font-bold text-primary transition-colors duration-200 hover:bg-surface-container hover:text-primary/90 break-all" href="mailto:spielen@spieletreff-tecklenburgerland.de">
+			<a
+				class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 font-bold text-primary transition-colors duration-200 hover:bg-surface-container hover:text-primary/90 break-all"
+				href="mailto:spielen@spieletreff-tecklenburgerland.de"
+			>
 				spielen@spieletreff-tecklenburgerland.de
 			</a>
-			<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-primary mt-2">Community</h4>
+			<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-primary mt-2">
+				Community
+			</h4>
 			<ul class="space-y-2">
 				<li>
 					<a
@@ -80,19 +110,34 @@
 			<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-primary">Links</h4>
 			<ul class="space-y-2">
 				<li>
-					<a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="https://www.brettspieletreff-lingen.de/" target="_blank" rel="noopener noreferrer">
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href="https://www.brettspieletreff-lingen.de/"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						Brettspieltreff Lingen
 						<Icon name="arrow_outward" class="link-icon text-base" />
 					</a>
 				</li>
 				<li>
-					<a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="https://spieltraeumer.de/" target="_blank" rel="noopener noreferrer">
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href="https://spieltraeumer.de/"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						Spieltraeumer
 						<Icon name="arrow_outward" class="link-icon text-base" />
 					</a>
 				</li>
 				<li>
-					<a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="https://wp.nrw-spielt.de/" target="_blank" rel="noopener noreferrer">
+					<a
+						class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary"
+						href="https://wp.nrw-spielt.de/"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						NRW spielt
 						<Icon name="arrow_outward" class="link-icon text-base" />
 					</a>

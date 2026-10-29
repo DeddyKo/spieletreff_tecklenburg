@@ -1,4 +1,4 @@
-import type { CalendarEvent } from '$lib/types';
+import type { CalendarEvent } from '#lib/types.js';
 
 const CALENDAR_ID =
 	'5d1d857bdfe446b6f66f5a77351958678182bac29942538a178a113dd8e7a7fb@group.calendar.google.com';

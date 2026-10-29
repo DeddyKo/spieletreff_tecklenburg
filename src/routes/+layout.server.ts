@@ -1,4 +1,4 @@
-import { fetchCalendarEvents } from '$lib/server/calendar';
+import { fetchCalendarEvents } from '#lib/server/calendar.js';
 import type { LayoutServerLoad } from './$types';
 
 export const prerender = true;

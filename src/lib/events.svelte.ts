@@ -1,4 +1,4 @@
-import type { CalendarEvent } from '$lib/types';
+import type { CalendarEvent } from '#lib/types.js';
 
 // Global reactive store for calendar events.
 // Populated by +layout.svelte from server-loaded data at build time.
@@ -36,7 +36,10 @@ export const calendarStore = {
 
 	/** Upcoming events (today and later), sorted ascending — includes cancellations. */
 	get upcoming(): CalendarEvent[] {
+		// These are transient snapshots used only for filtering, not reactive state.
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
 		const now = new Date();
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
 		const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 		return _events.filter((e) => e.start >= todayStart);
 	},

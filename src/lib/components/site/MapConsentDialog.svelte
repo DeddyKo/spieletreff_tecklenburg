@@ -3,11 +3,11 @@
 		open = false,
 		location = '',
 		onDecision
-	} = $props<{
+	}: {
 		open?: boolean;
 		location?: string;
 		onDecision: (accepted: boolean) => void;
-	}>();
+	} = $props();
 
 	const uid = $props.id();
 	const titleId = `${uid}-title`;
@@ -54,7 +54,6 @@
 		const timer = window.setTimeout(() => node.focus(), 0);
 		return () => window.clearTimeout(timer);
 	}
-
 </script>
 
 <svelte:window onkeydown={trapFocus} />
@@ -73,27 +72,30 @@
 			aria-describedby={descriptionId}
 			class="w-full max-w-lg bg-surface-container rounded-3xl p-6 md:p-8"
 		>
-		<h2 id={titleId} class="text-2xl font-bold font-headline text-on-surface mb-3">Ort in Google Maps anzeigen?</h2>
-		<p id={descriptionId} class="text-on-surface-variant leading-relaxed">
-			<strong class="text-on-surface font-semibold">"{location}"</strong> auf Google Maps öffnen. Dabei werden Daten an Google übermittelt.
-		</p>
-		<div class="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end">
-			<button
-				type="button"
-				{@attach focusOnMount}
-				class="px-5 py-2.5 rounded-xl bg-surface-container-highest text-on-surface font-bold hover:brightness-95 transition"
-				onclick={() => onDecision(false)}
-			>
-				Abbrechen
-			</button>
-			<button
-				type="button"
-				class="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-bold hover:brightness-110 transition"
-				onclick={() => onDecision(true)}
-			>
-				Google Maps öffnen
-			</button>
-		</div>
+			<h2 id={titleId} class="text-2xl font-bold font-headline text-on-surface mb-3">
+				Ort in Google Maps anzeigen?
+			</h2>
+			<p id={descriptionId} class="text-on-surface-variant leading-relaxed">
+				<strong class="text-on-surface font-semibold">"{location}"</strong> auf Google Maps öffnen. Dabei
+				werden Daten an Google übermittelt.
+			</p>
+			<div class="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-end">
+				<button
+					type="button"
+					{@attach focusOnMount}
+					class="px-5 py-2.5 rounded-xl bg-surface-container-highest text-on-surface font-bold hover:brightness-95 transition"
+					onclick={() => onDecision(false)}
+				>
+					Abbrechen
+				</button>
+				<button
+					type="button"
+					class="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-bold hover:brightness-110 transition"
+					onclick={() => onDecision(true)}
+				>
+					Google Maps öffnen
+				</button>
+			</div>
 		</div>
 	</div>
 {/if}
