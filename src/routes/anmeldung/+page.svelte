@@ -134,7 +134,7 @@
 								Zur Startseite
 							</a>
 							<a
-								href="{base}/kalender"
+								href="{base}/kalender/"
 								class="ui-button inline-flex items-center gap-2 rounded-[var(--radius-lg)] bg-primary px-5 py-2.5 font-headline text-sm font-bold text-on-primary transition-colors hover:bg-primary/90"
 							>
 								<Icon name="calendar_month" class="text-base leading-none" />
@@ -225,7 +225,7 @@
 					<!-- DSGVO note -->
 					<p class="text-center text-xs leading-relaxed text-on-surface-variant/60">
 						Deine Angaben werden nur für die Bearbeitung deiner Anmeldung genutzt. Das Formular wird über <strong class="text-on-surface-variant/80">Resend</strong> (USA) versendet – mit dem ein Auftragsverarbeitungsvertrag besteht. Mehr dazu in unserer
-						<a href="{base}/datenschutz" class="underline decoration-on-surface-variant/30 transition-colors hover:text-on-surface-variant">Datenschutzerklärung</a>.
+						<a href="{base}/datenschutz/" class="underline decoration-on-surface-variant/30 transition-colors hover:text-on-surface-variant">Datenschutzerklärung</a>.
 					</p>
 				</form>
 				{/if}

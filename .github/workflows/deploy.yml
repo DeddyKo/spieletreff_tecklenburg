@@ -41,6 +41,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Test calendar times and direct page URLs
+        run: npm run test
+
       - name: Generate mail config
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}

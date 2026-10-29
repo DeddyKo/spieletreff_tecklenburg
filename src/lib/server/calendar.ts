@@ -26,11 +26,18 @@ export async function fetchCalendarEvents(): Promise<CalendarEvent[]> {
 
 // Unfold iCal line continuations (CRLF + whitespace = logical continuation)
 function unfoldLines(text: string): string[] {
-	return text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '').split(/\r\n|\n/);
+	return text
+		.replace(/\r\n[ \t]/g, '')
+		.replace(/\n[ \t]/g, '')
+		.split(/\r\n|\n/);
 }
 
 function unescape(value: string): string {
-	return value.replace(/\\n/g, '\n').replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\\\/g, '\\');
+	return value
+		.replace(/\\n/g, '\n')
+		.replace(/\\,/g, ',')
+		.replace(/\\;/g, ';')
+		.replace(/\\\\/g, '\\');
 }
 
 /**
@@ -111,6 +118,8 @@ type RawEvent = Partial<CalendarEvent> & {
 	durationMs?: number;
 	/** Identifies which series occurrence this VEVENT overrides (RFC 5545). */
 	recurrenceId?: Date;
+	/** Timezone in which recurring wall-clock dates must be advanced. */
+	timeZone?: string;
 };
 
 /** Parses iCal DURATION values such as PT5H, P1D, or PT1H30M into milliseconds. */
@@ -165,31 +174,68 @@ function parseWeekdayToken(token: string): { nth: number | null; day: number } |
 
 function nthWeekdayOfMonth(year: number, month: number, weekday: number, nth: number): Date | null {
 	if (nth > 0) {
-		const firstOfMonth = new Date(year, month, 1);
-		const delta = (weekday - firstOfMonth.getDay() + 7) % 7;
+		const firstOfMonth = new Date(Date.UTC(year, month, 1));
+		const delta = (weekday - firstOfMonth.getUTCDay() + 7) % 7;
 		const day = 1 + delta + (nth - 1) * 7;
-		const candidate = new Date(year, month, day);
-		return candidate.getMonth() === month ? candidate : null;
+		const candidate = new Date(Date.UTC(year, month, day));
+		return candidate.getUTCMonth() === month ? candidate : null;
 	}
 
 	// e.g. -1FR => last Friday of month
-	const lastOfMonth = new Date(year, month + 1, 0);
-	const delta = (lastOfMonth.getDay() - weekday + 7) % 7;
-	const day = lastOfMonth.getDate() - delta + (nth + 1) * 7;
-	const candidate = new Date(year, month, day);
-	return candidate.getMonth() === month ? candidate : null;
+	const lastOfMonth = new Date(Date.UTC(year, month + 1, 0));
+	const delta = (lastOfMonth.getUTCDay() - weekday + 7) % 7;
+	const day = lastOfMonth.getUTCDate() - delta + (nth + 1) * 7;
+	const candidate = new Date(Date.UTC(year, month, day));
+	return candidate.getUTCMonth() === month ? candidate : null;
 }
 
 function withTimeFrom(datePart: Date, timePart: Date): Date {
 	return new Date(
-		datePart.getFullYear(),
-		datePart.getMonth(),
-		datePart.getDate(),
-		timePart.getHours(),
-		timePart.getMinutes(),
-		timePart.getSeconds(),
-		timePart.getMilliseconds()
+		Date.UTC(
+			datePart.getUTCFullYear(),
+			datePart.getUTCMonth(),
+			datePart.getUTCDate(),
+			timePart.getUTCHours(),
+			timePart.getUTCMinutes(),
+			timePart.getUTCSeconds(),
+			timePart.getUTCMilliseconds()
+		)
 	);
+}
+
+/** A UTC-backed calendar date whose fields represent wall-clock time in tzid. */
+function wallClockDate(instant: Date, tzid: string): Date {
+	if (tzid === 'UTC') return new Date(instant);
+	const parts = Object.fromEntries(
+		new Intl.DateTimeFormat('en-CA', {
+			timeZone: tzid,
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+			hour: '2-digit',
+			minute: '2-digit',
+			second: '2-digit',
+			hourCycle: 'h23'
+		})
+			.formatToParts(instant)
+			.map((part) => [part.type, part.value])
+	);
+	return new Date(
+		Date.UTC(
+			Number(parts.year),
+			Number(parts.month) - 1,
+			Number(parts.day),
+			Number(parts.hour),
+			Number(parts.minute),
+			Number(parts.second),
+			instant.getUTCMilliseconds()
+		)
+	);
+}
+
+function wallClockToInstant(date: Date, tzid: string): Date {
+	if (tzid === 'UTC') return new Date(date);
+	return parseLocalInTimezone(date.toISOString().slice(0, 19), tzid);
 }
 
 function expandRecurringEvent(raw: RawEvent): CalendarEvent[] {
@@ -211,24 +257,27 @@ function expandRecurringEvent(raw: RawEvent): CalendarEvent[] {
 	const durationMs = end.getTime() - normalized.start!.getTime();
 	const exdates = new Set((normalized.exdates ?? []).map((d) => d.getTime()));
 	const rdates = normalized.rdates ?? [];
+	const timeZone = normalized.timeZone ?? 'Europe/Berlin';
+	const wallStart = wallClockDate(normalized.start!, timeZone);
 
 	const occurrences: Date[] = [];
-	const addOccurrence = (d: Date) => {
+	const addInstant = (d: Date) => {
 		const ts = d.getTime();
 		if (until && ts > until.getTime()) return;
 		if (exdates.has(ts)) return;
 		if (!occurrences.some((o) => o.getTime() === ts)) occurrences.push(d);
 	};
+	const addOccurrence = (wallDate: Date) => addInstant(wallClockToInstant(wallDate, timeZone));
 
 	// DTSTART is always part of the recurrence set.
-	addOccurrence(normalized.start!);
+	addInstant(normalized.start!);
 
 	if (freq === 'DAILY') {
 		let i = 1;
 		while (i < 1000) {
-			const d = new Date(normalized.start!);
-			d.setDate(d.getDate() + i * interval);
-			if (until && d > until) break;
+			const d = new Date(wallStart);
+			d.setUTCDate(d.getUTCDate() + i * interval);
+			if (until && wallClockToInstant(d, timeZone) > until) break;
 			addOccurrence(d);
 			if (count && occurrences.length >= count) break;
 			i += 1;
@@ -239,22 +288,24 @@ function expandRecurringEvent(raw: RawEvent): CalendarEvent[] {
 			.map((t) => t.trim())
 			.filter(Boolean);
 		const weekdays = bydayTokens.length
-			? bydayTokens.map((t) => parseWeekdayToken(t)?.day).filter((d): d is number => d !== undefined)
-			: [normalized.start!.getDay()];
+			? bydayTokens
+					.map((t) => parseWeekdayToken(t)?.day)
+					.filter((d): d is number => d !== undefined)
+			: [wallStart.getUTCDay()];
 
 		let week = 0;
 		while (week < 520) {
-			const weekStart = new Date(normalized.start!);
-			weekStart.setDate(weekStart.getDate() + week * interval * 7);
+			const weekStart = new Date(wallStart);
+			weekStart.setUTCDate(weekStart.getUTCDate() + week * interval * 7);
 			for (const wd of weekdays) {
 				const d = new Date(weekStart);
-				const delta = (wd - weekStart.getDay() + 7) % 7;
-				d.setDate(d.getDate() + delta);
+				const delta = (wd - weekStart.getUTCDay() + 7) % 7;
+				d.setUTCDate(d.getUTCDate() + delta);
 				addOccurrence(d);
 				if (count && occurrences.length >= count) break;
 			}
 			if (count && occurrences.length >= count) break;
-			if (until && weekStart > until) break;
+			if (until && wallClockToInstant(weekStart, timeZone) > until) break;
 			week += 1;
 		}
 	} else if (freq === 'MONTHLY') {
@@ -265,10 +316,10 @@ function expandRecurringEvent(raw: RawEvent): CalendarEvent[] {
 
 		let monthOffset = 0;
 		while (monthOffset < 240) {
-			const d = new Date(normalized.start!);
-			d.setMonth(d.getMonth() + monthOffset * interval);
-			const year = d.getFullYear();
-			const month = d.getMonth();
+			const d = new Date(wallStart);
+			d.setUTCMonth(d.getUTCMonth() + monthOffset * interval);
+			const year = d.getUTCFullYear();
+			const month = d.getUTCMonth();
 
 			if (bydayTokens.length) {
 				for (const token of bydayTokens) {
@@ -278,20 +329,31 @@ function expandRecurringEvent(raw: RawEvent): CalendarEvent[] {
 					const nth = parsed.nth ?? 1;
 					const dayInMonth = nthWeekdayOfMonth(year, month, parsed.day, nth);
 					if (!dayInMonth) continue;
-					addOccurrence(withTimeFrom(dayInMonth, normalized.start!));
+					addOccurrence(withTimeFrom(dayInMonth, wallStart));
 					if (count && occurrences.length >= count) break;
 				}
 			} else {
-				addOccurrence(new Date(year, month, normalized.start!.getDate(), normalized.start!.getHours(), normalized.start!.getMinutes(), normalized.start!.getSeconds()));
+				addOccurrence(
+					new Date(
+						Date.UTC(
+							year,
+							month,
+							wallStart.getUTCDate(),
+							wallStart.getUTCHours(),
+							wallStart.getUTCMinutes(),
+							wallStart.getUTCSeconds()
+						)
+					)
+				);
 			}
 
 			if (count && occurrences.length >= count) break;
-			if (until && d > until) break;
+			if (until && wallClockToInstant(d, timeZone) > until) break;
 			monthOffset += 1;
 		}
 	}
 
-	for (const rdate of rdates) addOccurrence(rdate);
+	for (const rdate of rdates) addInstant(rdate);
 
 	occurrences.sort((a, b) => a.getTime() - b.getTime());
 	if (count) occurrences.splice(count);
@@ -347,6 +409,10 @@ function parseIcal(text: string): CalendarEvent[] {
 				const { date, allDay } = parseDate(key, value);
 				evt.start = date;
 				evt.allDay = allDay;
+				evt.timeZone =
+					allDay || value.endsWith('Z')
+						? 'UTC'
+						: (key.match(/TZID=([^;:]+)/)?.[1] ?? 'Europe/Berlin');
 				break;
 			}
 			case 'DTEND': {

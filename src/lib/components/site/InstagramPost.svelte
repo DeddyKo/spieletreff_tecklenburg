@@ -31,7 +31,7 @@
 				loading="lazy"
 				scrolling="no"
 				frameborder="0"
-				allowtransparency="true"
+				allowtransparency={true}
 			></iframe>
 		</div>
 	{:else}
@@ -95,7 +95,7 @@
 				<p class="text-xs text-on-surface-variant/70">
 					Es werden Daten an Meta (Instagram) übermittelt. Mehr dazu in unserer
 					<a
-						href="/datenschutz"
+						href="/datenschutz/"
 						class="underline hover:text-on-surface-variant rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1"
 					>Datenschutzerklärung</a>.
 				</p>

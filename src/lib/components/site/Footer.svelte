@@ -24,10 +24,10 @@
 			<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-primary">Seiten</h4>
 			<ul class="space-y-2">
 				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/">Home</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/kalender">Kalender</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/geschichte">Geschichte</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/datenschutz">Datenschutz</a></li>
-				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/impressum">Impressum</a></li>
+				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/kalender/">Kalender</a></li>
+				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/geschichte/">Geschichte</a></li>
+				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/datenschutz/">Datenschutz</a></li>
+				<li><a class="footer-link focus-ring min-h-11 inline-flex rounded-xl px-2 py-1 text-on-surface-variant/60 text-sm transition-colors duration-200 hover:bg-surface-container hover:text-primary" href="{base}/impressum/">Impressum</a></li>
 			</ul>
 		</div>
 		<div class="flex flex-col gap-4">

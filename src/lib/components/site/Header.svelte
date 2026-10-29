@@ -12,9 +12,9 @@
 
 	const navItems = [
 		{ href: '/', label: 'Start' },
-		{ href: '/kalender', label: 'Kalender' },
-		{ href: '/geschichte', label: 'Geschichte' },
-		{ href: '/anmeldung', label: 'Anmeldung' }
+		{ href: '/kalender/', label: 'Kalender' },
+		{ href: '/geschichte/', label: 'Geschichte' },
+		{ href: '/anmeldung/', label: 'Anmeldung' }
 	];
 
 	function isActive(href: string): boolean {
@@ -48,7 +48,7 @@
 				{/each}
 			</div>
 			<div class="flex items-center gap-2">
-				<a href="{base}/kalender#bevorstehende-termine" class="header-cta focus-ring hidden min-h-11 whitespace-nowrap rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-on-primary transition-colors duration-200 hover:bg-primary/90 md:px-6 md:text-base sm:inline-flex">
+				<a href="{base}/kalender/#bevorstehende-termine" class="header-cta focus-ring hidden min-h-11 whitespace-nowrap rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-on-primary transition-colors duration-200 hover:bg-primary/90 md:px-6 md:text-base sm:inline-flex">
 					Nächstes Treffen
 				</a>
 				<button
@@ -84,7 +84,7 @@
 						{item.label}
 					</a>
 				{/each}
-				<a href="{base}/kalender#bevorstehende-termine" class="header-cta focus-ring mt-1 inline-flex min-h-11 justify-center rounded-xl bg-primary px-4 py-2.5 font-bold text-on-primary transition-colors duration-200 hover:bg-primary/90" onclick={() => (menuOpen = false)}>
+				<a href="{base}/kalender/#bevorstehende-termine" class="header-cta focus-ring mt-1 inline-flex min-h-11 justify-center rounded-xl bg-primary px-4 py-2.5 font-bold text-on-primary transition-colors duration-200 hover:bg-primary/90" onclick={() => (menuOpen = false)}>
 					Nächstes Treffen
 				</a>
 			</div>

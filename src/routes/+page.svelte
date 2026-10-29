@@ -174,7 +174,7 @@
 									'Wir packen die großen Strategie-Bretter und die schnellen Kartenspiele aus. Kommt vorbei, setzt euch dazu und lasst uns gemeinsam die Würfel rollen!'}
 							</p>
 							<a
-								href="{base}/anmeldung"
+								href="{base}/anmeldung/"
 								class="ui-button mb-2 inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/8 px-5 py-2.5 text-sm font-bold text-primary transition-colors hover:bg-primary/12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
 							>
 								<Icon name="edit_note" class="text-base leading-none" />
@@ -182,7 +182,7 @@
 							</a>
 						{:else}
 							<a
-								href="{base}/anmeldung"
+								href="{base}/anmeldung/"
 								class="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:underline rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
 							>
 								Fürs nächste Treffen anmelden
@@ -270,7 +270,7 @@
 					<div>
 						<p class="font-bold font-headline text-on-surface text-lg leading-snug">Termin aussuchen</p>
 						<p class="text-on-surface-variant mt-1.5 leading-relaxed">Im Kalender steht, wann und wo das nächste Treffen stattfindet.</p>
-						<a href="{base}/kalender" class="inline-flex items-center gap-1 mt-3 text-sm font-bold text-primary hover:underline rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">
+						<a href="{base}/kalender/" class="inline-flex items-center gap-1 mt-3 text-sm font-bold text-primary hover:underline rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">
 							Zum Kalender
 							<Icon name="arrow_forward" class="text-sm leading-none" />
 						</a>
@@ -282,7 +282,7 @@
 					<p class="font-bold font-headline text-on-surface text-lg leading-snug">Einfach vorbeikommen</p>
 					<p class="text-on-surface-variant mt-1.5 leading-relaxed">Keine Anmeldung, kein Mitgliedsbeitrag – komm vorbei und setz dich dazu.</p>
 					<p class="text-on-surface-variant mt-2 leading-relaxed">Du kannst dich aber auch gerne vorab anmelden – kein Muss, hilft uns aber bei der Planung.</p>
-					<a href="{base}/anmeldung" class="inline-flex items-center gap-1 mt-3 text-sm font-bold text-primary hover:underline rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">
+					<a href="{base}/anmeldung/" class="inline-flex items-center gap-1 mt-3 text-sm font-bold text-primary hover:underline rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">
 						Vorab anmelden
 						<Icon name="arrow_forward" class="text-sm leading-none" />
 					</a>
@@ -331,7 +331,7 @@
 		<div>
 			<h2 class="text-4xl font-extrabold font-headline text-on-surface">Bevorstehende Treffen</h2>
 		</div>
-			<a class="text-on-surface-variant font-semibold flex items-center gap-2 hover:text-primary hover:underline group transition-colors" href="{base}/kalender">
+			<a class="text-on-surface-variant font-semibold flex items-center gap-2 hover:text-primary hover:underline group transition-colors" href="{base}/kalender/">
 				Gesamten Kalender ansehen
 				<Icon name="arrow_forward" class="group-hover:translate-x-1 transition-transform" />
 			</a>
@@ -341,7 +341,7 @@
 				{#each nextThreeEvents as event, i (event.uid)}
 			<div class={`relative rounded-xl overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-lg ${i === 0 ? 'bg-primary-container text-on-primary-container shadow-lg' : 'bg-surface-container-highest'}`}>
 				<a
-					href="{base}/kalender#bevorstehende-termine"
+					href="{base}/kalender/#bevorstehende-termine"
 					aria-label="{displayEventTitle(event)}, im Kalender ansehen"
 					class="absolute inset-0 z-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-[-2px]"
 				><span class="sr-only">Im Kalender ansehen</span></a>
